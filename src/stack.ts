@@ -1,3 +1,5 @@
+/* eslint-disable no-undef, no-console */
+
 /**
  * Stacks:
  * A stack is an abstract data type that serves as a collection of elements, with two principal
