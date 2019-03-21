@@ -60,14 +60,14 @@ export function createQueue<T>(): Queue<T> {
     /**
      * returns the length of the queue
      */
-    get length(): number {
+    get length() {
       return queue.length;
     },
 
     /**
      * returns a boolean indicating if the queue is empty.
      */
-    isEmpty(): boolean {
+    isEmpty() {
       return queue.length === 0;
     },
   };
