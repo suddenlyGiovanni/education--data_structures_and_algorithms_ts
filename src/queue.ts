@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable no-undef, no-console*/
 
 /**
  * Queues:
@@ -11,8 +11,16 @@
  * removed
  */
 
-export function createQueue() {
-  const queue: any[] = [];
+interface Queue<T> {
+  readonly enqueue: (item: T) => void;
+  readonly dequeue: () => T | undefined;
+  readonly peek: () => T;
+  readonly isEmpty: () => boolean;
+  readonly length: number;
+}
+
+export function createQueue<T>(): Queue<T> {
+  const queue: T[] = [];
   /*
     [
       (enqueue)
@@ -27,7 +35,7 @@ export function createQueue() {
     /**
      * add or enqueue items to the `back of the queue` === `to the head of the array`
      */
-    enqueue(item: any): void {
+    enqueue(item) {
       queue.unshift(item);
     },
 
