@@ -16,8 +16,6 @@ interface Stack<T = string> {
   readonly isEmpty: () => boolean;
 }
 
-
-
 export function createStack<T>(): Stack<T> {
   const array: T[] = [];
 
@@ -27,42 +25,40 @@ export function createStack<T>(): Stack<T> {
     },
 
     pop() {
-      return array.pop()
+      return array.pop();
     },
 
     peek() {
-      const lastItemIdx = array.length - 1
+      const lastItemIdx = array.length - 1;
       return array[lastItemIdx];
     },
 
     get length() {
-      return array.length
+      return array.length;
     },
 
     isEmpty() {
       return array.length === 0;
-    }
-  }
+    },
+  };
 }
 
 //  ex. stack clothing...
 
 const lowerBodyStack = createStack();
-console.log(lowerBodyStack.isEmpty()) // => 'true'
+console.log(lowerBodyStack.isEmpty()); // => 'true'
 
-lowerBodyStack.push('underwear')
-lowerBodyStack.push('socks')
-lowerBodyStack.push('pants')
-lowerBodyStack.push('shoes')
+lowerBodyStack.push('underwear');
+lowerBodyStack.push('socks');
+lowerBodyStack.push('pants');
+lowerBodyStack.push('shoes');
 
-console.log(lowerBodyStack.peek()) // => 'shoes'
+console.log(lowerBodyStack.peek()); // => 'shoes'
 
+lowerBodyStack.pop();
+console.log(lowerBodyStack.peek()); // => 'pants'
 
-lowerBodyStack.pop()
-console.log(lowerBodyStack.peek()) // => 'pants'
+lowerBodyStack.pop();
+console.log(lowerBodyStack.peek()); // => 'socks'
 
-
-lowerBodyStack.pop()
-console.log(lowerBodyStack.peek()) // => 'socks'
-
-console.log(lowerBodyStack.length) // => '2'
+console.log(lowerBodyStack.length); // => '2'
