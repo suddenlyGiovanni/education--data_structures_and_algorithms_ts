@@ -1,3 +1,4 @@
+/* eslint-disable no-undef, no-console */
 import { createQueue } from './index';
 
 /**
@@ -12,15 +13,23 @@ import { createQueue } from './index';
  *    priority, and return it
  * */
 
-export function createPriorityQueue() {
-  const lowPriorityQueue = createQueue();
-  const highPriorityQueue = createQueue();
+interface PriorityQueue<T> {
+  readonly enqueue: (item: T, isHeighPriority?: boolean) => void;
+  readonly dequeue: () => T | undefined;
+  readonly peek: () => T;
+  readonly isEmpty: () => boolean;
+  readonly length: number;
+}
+
+export function createPriorityQueue<T>(): PriorityQueue<T> {
+  const lowPriorityQueue = createQueue<T>();
+  const highPriorityQueue = createQueue<T>();
   return {
     /**
      * `insert_with_priority` or `enqueue`:
      * add an element to the queue with an associated priority
      */
-    enqueue(item: any, isHeighPriority: boolean = false) {
+    enqueue(item, isHeighPriority = false) {
       isHeighPriority
         ? highPriorityQueue.enqueue(item)
         : lowPriorityQueue.enqueue(item);
@@ -47,7 +56,7 @@ export function createPriorityQueue() {
     /**
      * returns the length of the queue
      */
-    length(): number {
+    get length(): number {
       return highPriorityQueue.length + lowPriorityQueue.length;
     },
 
