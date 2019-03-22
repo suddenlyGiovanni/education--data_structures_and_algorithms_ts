@@ -39,7 +39,7 @@
 
 interface INode<T = null> {
   value: T
-  next: INode | null
+  next: INode<T> | null
 }
 
 interface LinkedList<T> {
@@ -73,13 +73,21 @@ function createNode<T>(value: T): INode<T> {
 }
 
 export function createLinkedList<T>(): LinkedList<T> {
-  // const _head: null | INode<T> = null
-  // const _tail: null | INode<T> = null
-  // const _length: number = 0;
+  let _head: null | INode<T> = null
+  let _tail: null | INode<T> = null
+  let _length = 0
   return {
-    head: null,
-    tail: null,
-    length: 0,
+    get head() {
+      return _head
+    },
+
+    get tail() {
+      return _tail
+    },
+
+    get length() {
+      return _length
+    },
 
     push(value) {
       // push places an element to the end of the list
@@ -89,9 +97,9 @@ export function createLinkedList<T>(): LinkedList<T> {
 
       // if the LL does not have a head and thus is empty...
       if (this.head === null) {
-        this.head = node
-        this.tail = node
-        this.length++
+        _head = node
+        _tail = node
+        _length++
         return node
       }
       /**
@@ -100,10 +108,10 @@ export function createLinkedList<T>(): LinkedList<T> {
        */
 
       // set the pointer of the current tail to the next node.
-      this.tail.next = node
+      _tail.next = node
       // set the old tail to the now current new node.
-      this.tail = node
-      this.length++
+      _tail = node
+      _length++
       return node
       // we need to increment the length property
     },
@@ -121,16 +129,16 @@ export function createLinkedList<T>(): LinkedList<T> {
         return null
       }
 
-      const node = this.tail
+      const node = _tail
 
       // SCENARIO: a list has one item
 
       // the list has a length of one when:
-      if (this.head === this.tail) {
+      if (_head === _tail) {
         // we need to remove the only element in the list and reset the head and tail back to null
-        this.head = null
-        this.tail = null
-        this.length--
+        _head = null
+        _tail = null
+        _length--
         return node
       }
 
@@ -140,10 +148,10 @@ export function createLinkedList<T>(): LinkedList<T> {
        * need to set the penultimate item before tail to the new tail
        * with its next value set to null
        * */
-      let current = this.head
+      let current = _head
       let penultimate: INode<T>
       while (current) {
-        if (current.next === this.tail) {
+        if (current.next === _tail) {
           penultimate = current
           break
         }
@@ -151,21 +159,21 @@ export function createLinkedList<T>(): LinkedList<T> {
       }
 
       penultimate.next = null
-      this.tail = penultimate
-      this.length--
+      _tail = penultimate
+      _length--
       return node
     },
 
     get(index) {
-      if (index < 0 || index > this.length) {
+      if (index < 0 || index > _length) {
         return null
       }
 
       if (index === 0) {
-        return this.head
+        return _head
       }
 
-      let current = this.head
+      let current = _head
       let i = 0
       while (i < index) {
         i++
@@ -176,18 +184,18 @@ export function createLinkedList<T>(): LinkedList<T> {
     },
 
     delete(index) {
-      if (index < 0 || index > this.length) {
+      if (index < 0 || index > _length) {
         return null
       }
 
       if (index === 0) {
-        const deleted = this.head
-        this.head = this.head.next
-        this.length--
+        const deleted = _head
+        _head = _head.next
+        _length--
         return deleted
       }
 
-      let current = this.head
+      let current = _head
       let previous: null | INode<T>
       let i = 0
 
@@ -198,13 +206,13 @@ export function createLinkedList<T>(): LinkedList<T> {
       }
       const deleted = current
       previous.next = current.next
-      this.length--
+      _length--
       return deleted
     },
 
     print() {
       const values: T[] = []
-      let current = this.head
+      let current = _head
 
       while (current) {
         values.push(current.value)
