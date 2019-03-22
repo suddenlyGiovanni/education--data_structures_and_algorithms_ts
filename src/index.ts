@@ -1,4 +1,4 @@
-export { createQueue } from './queue';
-export { createPriorityQueue } from './priority-queue';
-export { createStack } from './stack';
-export { createLinkedList } from './linked-list'
+export { createQueue } from './queue/queue'
+export { createPriorityQueue } from './queue/priority-queue'
+export { createStack } from './stack/stack'
+export { createLinkedList } from './linked-list/linked-list'

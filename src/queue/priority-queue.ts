@@ -1,5 +1,5 @@
 /* eslint-disable no-undef, no-console */
-import { createQueue } from './index';
+import { createQueue } from '../index'
 
 /**
  * priority queue:
@@ -14,16 +14,16 @@ import { createQueue } from './index';
  * */
 
 interface PriorityQueue<T> {
-  readonly enqueue: (item: T, isHeighPriority?: boolean) => void;
-  readonly dequeue: () => T | undefined;
-  readonly peek: () => T;
-  readonly isEmpty: () => boolean;
-  readonly length: number;
+  readonly enqueue: (item: T, isHeighPriority?: boolean) => void
+  readonly dequeue: () => T | undefined
+  readonly peek: () => T
+  readonly isEmpty: () => boolean
+  readonly length: number
 }
 
 export function createPriorityQueue<T>(): PriorityQueue<T> {
-  const lowPriorityQueue = createQueue<T>();
-  const highPriorityQueue = createQueue<T>();
+  const lowPriorityQueue = createQueue<T>()
+  const highPriorityQueue = createQueue<T>()
   return {
     /**
      * `insert_with_priority` or `enqueue`:
@@ -32,7 +32,7 @@ export function createPriorityQueue<T>(): PriorityQueue<T> {
     enqueue(item, isHeighPriority = false) {
       isHeighPriority
         ? highPriorityQueue.enqueue(item)
-        : lowPriorityQueue.enqueue(item);
+        : lowPriorityQueue.enqueue(item)
     },
     /**
      * `pull_highest_priority_element` or `dequeue`
@@ -40,45 +40,45 @@ export function createPriorityQueue<T>(): PriorityQueue<T> {
      */
     dequeue() {
       if (!highPriorityQueue.isEmpty()) {
-        return highPriorityQueue.dequeue();
+        return highPriorityQueue.dequeue()
       }
-      return lowPriorityQueue.dequeue();
+      return lowPriorityQueue.dequeue()
     },
 
     // peek
     peek() {
       if (!highPriorityQueue.isEmpty()) {
-        return highPriorityQueue.peek();
+        return highPriorityQueue.peek()
       }
-      return lowPriorityQueue.peek();
+      return lowPriorityQueue.peek()
     },
 
     /**
      * returns the length of the queue
      */
     get length(): number {
-      return highPriorityQueue.length + lowPriorityQueue.length;
+      return highPriorityQueue.length + lowPriorityQueue.length
     },
 
     /**
      * isEmpty check whether the queue has no elements
      */
     isEmpty() {
-      return highPriorityQueue.isEmpty() && lowPriorityQueue.isEmpty();
+      return highPriorityQueue.isEmpty() && lowPriorityQueue.isEmpty()
     },
-  };
+  }
 }
 
-const q = createPriorityQueue();
+const q = createPriorityQueue()
 
-q.enqueue('A fix here');
-q.enqueue('A bug there');
-q.enqueue('A new feature');
-console.log(q.peek()); // 'A fix here'
+q.enqueue('A fix here')
+q.enqueue('A bug there')
+q.enqueue('A new feature')
+console.log(q.peek()) // 'A fix here'
 
-console.log(q.dequeue()); // 'A fix here'
-q.enqueue('Emergency task!', true);
-console.log(q.peek()); // 'Emergency task!'
+console.log(q.dequeue()) // 'A fix here'
+q.enqueue('Emergency task!', true)
+console.log(q.peek()) // 'Emergency task!'
 
-console.log(q.dequeue()); // 'Emergency task!'
-console.log(q.peek()); // 'A bug there'
+console.log(q.dequeue()) // 'Emergency task!'
+console.log(q.peek()) // 'A bug there'

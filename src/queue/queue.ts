@@ -12,15 +12,15 @@
  */
 
 interface Queue<T> {
-  readonly enqueue: (item: T) => void;
-  readonly dequeue: () => T | undefined;
-  readonly peek: () => T;
-  readonly isEmpty: () => boolean;
-  readonly length: number;
+  readonly enqueue: (item: T) => void
+  readonly dequeue: () => T | undefined
+  readonly peek: () => T
+  readonly isEmpty: () => boolean
+  readonly length: number
 }
 
 export function createQueue<T>(): Queue<T> {
-  const queue: T[] = [];
+  const queue: T[] = []
   /*
     [
       (enqueue)
@@ -36,7 +36,7 @@ export function createQueue<T>(): Queue<T> {
      * add or enqueue items to the `back of the queue` === `to the head of the array`
      */
     enqueue(item) {
-      queue.unshift(item);
+      queue.unshift(item)
     },
 
     /**
@@ -44,7 +44,7 @@ export function createQueue<T>(): Queue<T> {
      * and returns it
      * */
     dequeue() {
-      return queue.pop();
+      return queue.pop()
     },
 
     /**
@@ -53,41 +53,41 @@ export function createQueue<T>(): Queue<T> {
      * but does not modify the data.
      */
     peek() {
-      const nextIdx = queue.length - 1;
-      return queue[nextIdx];
+      const nextIdx = queue.length - 1
+      return queue[nextIdx]
     },
 
     /**
      * returns the length of the queue
      */
     get length() {
-      return queue.length;
+      return queue.length
     },
 
     /**
      * returns a boolean indicating if the queue is empty.
      */
     isEmpty() {
-      return queue.length === 0;
+      return queue.length === 0
     },
-  };
+  }
 }
 
-const q = createQueue();
-console.log(q.isEmpty()); // `true`
+const q = createQueue()
+console.log(q.isEmpty()) // `true`
 
-q.enqueue('Make an egghead');
-q.enqueue('Help others to learn');
-q.enqueue('Be happy');
-console.log(q.peek()); // `Make an egghead`
+q.enqueue('Make an egghead')
+q.enqueue('Help others to learn')
+q.enqueue('Be happy')
+console.log(q.peek()) // `Make an egghead`
 
-q.dequeue();
-console.log(q.peek()); // Help others to learn`
+q.dequeue()
+console.log(q.peek()) // Help others to learn`
 
-q.dequeue();
-console.log(q.peek()); // `Be happy`
+q.dequeue()
+console.log(q.peek()) // `Be happy`
 
-q.dequeue();
-console.log(q.isEmpty()); // `true`
+q.dequeue()
+console.log(q.isEmpty()) // `true`
 
-console.log(q.length); // `0`
+console.log(q.length) // `0`
