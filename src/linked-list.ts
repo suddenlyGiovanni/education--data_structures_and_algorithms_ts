@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/interface-name-prefix */
+/* eslint-disable @typescript-eslint/interface-name-prefix, no-console, no-undef  */
 
 /**
  * Linked list
@@ -9,6 +9,7 @@
  *  In its most basic form, each node contains:
  * - data,
  * - and a reference (in other words, a link) to the next node in the sequence.
+ * {value, next -}-> {value, next -}-> {value, next}
  * This structure allows for efficient insertion or removal of elements from any position in the
  * sequence during iteration.
  * More complex variants add additional links, allowing more efficient insertion or removal of
@@ -37,38 +38,44 @@
  */
 
 interface INode<T = null> {
-  value: T;
-  next: INode | null;
+  value: T
+  next: INode | null
 }
 
 interface LinkedList<T> {
   /** the first current element of the linked list */
-  head: null | INode<T>;
+  readonly head: null | INode<T>
   /** the last current element of the linked list */
-  tail: null | INode<T>;
+  readonly tail: null | INode<T>
   /** the overall length of the linked list */
-  length: number;
+  readonly length: number
   /** adds an element to the end of the linked list */
-  push: (value: T) => INode<T>;
+  readonly push: (value: T) => INode<T>
   /** removes and return the the last element of the linked list if one is available */
-  pop: () => null | INode<T>;
-  /** returns an element at a specified index. if the index is out of bounds it will return null */
-  get: (index: number) => null | INode<T>;
+  readonly pop: () => null | INode<T>
+  /**
+   * retrieves an element at a specified index and then returns it.
+   * if the index is out of bounds it will return null
+   * */
+  readonly get: (index: number) => null | INode<T>
   /** deletes an element at a specified index and returns it. */
-  delete: (index: number) => null | INode<T>;
+  readonly delete: (index: number) => null | INode<T>
   /** print the linked list to a string representation */
-  print: () => T[];
-  isEmpty: () => boolean;
+  readonly print: () => string
+  readonly isEmpty: () => boolean
 }
 
 function createNode<T>(value: T): INode<T> {
   return {
     value,
     next: null,
-  };
+  }
 }
 
 export function createLinkedList<T>(): LinkedList<T> {
+  // const _head: null | INode<T> = null
+  // const _tail: null | INode<T> = null
+  // const _length: number = 0;
   return {
     head: null,
     tail: null,
@@ -76,16 +83,16 @@ export function createLinkedList<T>(): LinkedList<T> {
 
     push(value) {
       // push places an element to the end of the list
-      const node = createNode(value);
+      const node = createNode(value)
 
       // depending on the length of the list we need to take some different actions
 
       // if the LL does not have a head and thus is empty...
       if (this.head === null) {
-        this.head = node;
-        this.tail = node;
-        this.length++;
-        return node;
+        this.head = node
+        this.tail = node
+        this.length++
+        return node
       }
       /**
        * if the LL does have a length and thus have a head and a tail...
@@ -93,11 +100,11 @@ export function createLinkedList<T>(): LinkedList<T> {
        */
 
       // set the pointer of the current tail to the next node.
-      this.tail.next = node;
+      this.tail.next = node
       // set the old tail to the now current new node.
-      this.tail = node;
-      this.length++;
-      return node;
+      this.tail = node
+      this.length++
+      return node
       // we need to increment the length property
     },
 
@@ -111,20 +118,20 @@ export function createLinkedList<T>(): LinkedList<T> {
 
       // SCENARIO: a list is empty
       if (this.isEmpty()) {
-        return null;
+        return null
       }
 
-      const node = this.tail;
+      const node = this.tail
 
       // SCENARIO: a list has one item
 
       // the list has a length of one when:
       if (this.head === this.tail) {
         // we need to remove the only element in the list and reset the head and tail back to null
-        this.head = null;
-        this.tail = null;
-        this.length--;
-        return node;
+        this.head = null
+        this.tail = null
+        this.length--
+        return node
       }
 
       // SCENARIO: a list has many items
@@ -133,81 +140,108 @@ export function createLinkedList<T>(): LinkedList<T> {
        * need to set the penultimate item before tail to the new tail
        * with its next value set to null
        * */
-      let current = this.head;
-      let penultimate: INode<T>;
+      let current = this.head
+      let penultimate: INode<T>
       while (current) {
         if (current.next === this.tail) {
-          penultimate = current;
-          break;
+          penultimate = current
+          break
         }
-        current = current.next;
+        current = current.next
       }
 
-      penultimate.next = null;
-      this.tail = penultimate;
-      this.length--;
-      return node;
+      penultimate.next = null
+      this.tail = penultimate
+      this.length--
+      return node
     },
 
     get(index) {
       if (index < 0 || index > this.length) {
-        return null;
+        return null
       }
 
       if (index === 0) {
-        return this.head;
+        return this.head
       }
 
-      let current = this.head;
-      let i = 0;
+      let current = this.head
+      let i = 0
       while (i < index) {
-        i++;
-        current = current.next;
+        i++
+        current = current.next
       }
 
-      return current;
+      return current
     },
 
     delete(index) {
       if (index < 0 || index > this.length) {
-        return null;
+        return null
       }
 
       if (index === 0) {
-        const deleted = this.head;
-        this.head = this.head.next;
-        this.length--;
-        return deleted;
+        const deleted = this.head
+        this.head = this.head.next
+        this.length--
+        return deleted
       }
 
-      let current = this.head;
-      let previous: null | INode<T>;
-      let i = 0;
+      let current = this.head
+      let previous: null | INode<T>
+      let i = 0
 
       while (i < index) {
-        i++;
-        previous = current;
-        current = current.next;
+        i++
+        previous = current
+        current = current.next
       }
-      const deleted = current;
-      previous.next = current.next;
-      this.length--;
-      return deleted;
+      const deleted = current
+      previous.next = current.next
+      this.length--
+      return deleted
     },
 
     print() {
-      const values: T[] = [];
-      let current = this.head;
+      const values: T[] = []
+      let current = this.head
 
       while (current) {
-        values.push(current.value);
-        current = current.next;
+        values.push(current.value)
+        current = current.next
       }
 
-      return values.join(' => ');
+      return values.join(' => ')
     },
     isEmpty() {
-      return this.length === 0;
+      return this.length === 0
     },
-  };
+  }
 }
+
+const list = createLinkedList()
+const values = ['a', 'b', 'c', 'd', 'e']
+const nodes = values.map(val => list.push(val))
+
+console.log(list.isEmpty()) // => 'false';
+
+// remove the last element of the list. expect it to be 'e';
+list.pop() //?
+console.log(list.tail && list.tail.value) // => 'd'
+
+console.log(JSON.stringify(list.get(1), undefined, 4))
+/**
+ * {
+ *  "value": "b",
+ *   "next": {
+ *      "value": "c",
+ *      "next": {
+ *        "value": "d",
+ *        "next": null
+ *        }
+ *    }
+ * }
+ */
+
+console.log(list.delete(1))
+console.log(list.print()) // => 'a => c => d'
